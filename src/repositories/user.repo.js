@@ -42,11 +42,23 @@ export async function upsertUser({ email, name, stripeCustomerId }, db = pool) {
     return rows[0];
   }
 
-  const { rows } = await db.query(
-    `INSERT INTO users (email, name, stripe_customer_id)
-     VALUES ($1, $2, $3)
-     RETURNING *`,
-    [normalizedEmail, name || 'Customer', stripeCustomerId || null],
-  );
-  return rows[0];
+  try {
+    const { rows } = await db.query(
+      `INSERT INTO users (email, name, stripe_customer_id)
+       VALUES ($1, $2, $3)
+       ON CONFLICT (email) DO UPDATE SET
+         name = COALESCE(EXCLUDED.name, users.name),
+         stripe_customer_id = COALESCE(EXCLUDED.stripe_customer_id, users.stripe_customer_id),
+         updated_at = NOW()
+       RETURNING *`,
+      [normalizedEmail, name || 'Customer', stripeCustomerId || null],
+    );
+    return rows[0];
+  } catch (err) {
+    if (err.code === '23505') {
+      const existing = (stripeCustomerId ? await findUserByStripeCustomerId(stripeCustomerId, db) : null) || await findUserByEmail(normalizedEmail, db);
+      if (existing) return existing;
+    }
+    throw err;
+  }
 }

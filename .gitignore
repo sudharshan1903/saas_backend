@@ -1,0 +1,13 @@
+node_modules/
+invoices/*.pdf
+!invoices/.gitkeep
+logger/*.log
+!logger/.gitkeep
+.env
+.env.development
+.env.local
+.env.*.local
+*.log
+coverage/
+.DS_Store
+dist/

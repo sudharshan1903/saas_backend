@@ -1,0 +1,40 @@
+{
+  "name": "saas-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node --env-file=./src/.env.development src/server.js",
+    "dev": "node --env-file=./src/.env.development --watch src/server.js",
+    "worker": "node --env-file=./src/.env.development src/workers/index.js",
+    "cron": "node --env-file=./src/.env.development src/jobs/expiry.cron.js",
+    "mcp": "node --env-file=./src/.env.development src/mcp/server.js",
+    "mcp:test": "node --env-file=./src/.env.development scripts/test_mcp_chat.js",
+    "seed:demo": "node --env-file=./src/.env.development scripts/seed-demo.js",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.0",
+    "bullmq": "^5.16.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "ioredis": "^5.4.2",
+    "node-cron": "^4.6.0",
+    "nodemailer": "^10.0.15",
+    "pdfkit": "^0.20.2",
+    "pg": "^8.15.1",
+    "pino": "^9.6.0",
+    "pino-http": "^10.4.0",
+    "stripe": "^17.7.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0"
+  }
+}

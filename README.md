@@ -330,9 +330,7 @@ saas_backend/
 ├── logger/
 │   └── app.log                # Pino application log output
 ├── scripts/
-│   ├── seed-demo.js           # Database seeding script for demo data
 │   ├── test_mcp_chat.js       # Interactive MCP query CLI script
-│   └── test_email_standalone.js # Standalone email verification script
 └── src/
     ├── server.js              # Application HTTP server entrypoint
     ├── app.js                 # Express application setup (Middleware, CORS, Routes)
